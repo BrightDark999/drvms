@@ -1,0 +1,305 @@
+{
+  "info": {
+    "_postman_id": "drms-api-v1-share",
+    "name": "DRMS API v1 — Relief & Inventory Integration",
+    "description": "DRMS REST API for connected relief/inventory systems.\n\n**Setup:**\n1. Set collection variables `drmsBaseUrl` (e.g. http://drms.web/api/v1) and `reliefBaseUrl`.\n2. Run **Auth → Login** — saves `accessToken` automatically.\n3. Protected requests use `Authorization: Bearer {{accessToken}}`.\n\nShare with your team: `details/ENDPOINTS-SHARE.md`",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "drmsBaseUrl", "value": "http://drms.web/api/v1" },
+    { "key": "reliefBaseUrl", "value": "http://localhost:8081/api/v1" },
+    { "key": "reliefApiKey", "value": "dev-shared-secret" },
+    { "key": "accessToken", "value": "" },
+    { "key": "loginEmail", "value": "mdrrmo@drms.local" },
+    { "key": "loginPassword", "value": "Drms@2026" },
+    { "key": "incidentId", "value": "1" },
+    { "key": "volunteerId", "value": "1" },
+    { "key": "evacCenterId", "value": "1" },
+    { "key": "userId", "value": "1" },
+    { "key": "familyId", "value": "1" }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [{ "key": "token", "value": "{{accessToken}}", "type": "string" }]
+  },
+  "item": [
+    {
+      "name": "Public",
+      "item": [
+        {
+          "name": "Health",
+          "request": {
+            "auth": { "type": "noauth" },
+            "method": "GET",
+            "header": [{ "key": "Accept", "value": "application/json" }],
+            "url": "{{drmsBaseUrl}}/health"
+          }
+        },
+        {
+          "name": "Public report incident",
+          "request": {
+            "auth": { "type": "noauth" },
+            "method": "POST",
+            "header": [
+              { "key": "Accept", "value": "application/json" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Flooding on Main Street\",\n  \"severity\": \"high\",\n  \"incident_type\": \"flood\",\n  \"barangay_id\": 1,\n  \"description\": \"Knee-deep water, several households affected\"\n}"
+            },
+            "url": "{{drmsBaseUrl}}/incidents/report"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Login (get JWT)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "  var json = pm.response.json();",
+                  "  var token = json.data && json.data.access_token;",
+                  "  if (token) {",
+                  "    pm.collectionVariables.set('accessToken', token);",
+                  "    console.log('accessToken saved');",
+                  "  }",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "auth": { "type": "noauth" },
+            "method": "POST",
+            "header": [
+              { "key": "Accept", "value": "application/json" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"{{loginEmail}}\",\n  \"password\": \"{{loginPassword}}\"\n}"
+            },
+            "url": "{{drmsBaseUrl}}/auth/login"
+          }
+        },
+        {
+          "name": "Me (current user)",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Accept", "value": "application/json" }],
+            "url": "{{drmsBaseUrl}}/auth/me"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Dashboard",
+      "item": [
+        {
+          "name": "Stats overview",
+          "request": { "method": "GET", "header": [{ "key": "Accept", "value": "application/json" }], "url": "{{drmsBaseUrl}}/stats" }
+        },
+        {
+          "name": "Live dashboard",
+          "request": { "method": "GET", "header": [{ "key": "Accept", "value": "application/json" }], "url": "{{drmsBaseUrl}}/dashboard/live" }
+        },
+        {
+          "name": "Incidents map",
+          "request": { "method": "GET", "header": [{ "key": "Accept", "value": "application/json" }], "url": "{{drmsBaseUrl}}/dashboard/incidents-map" }
+        }
+      ]
+    },
+    {
+      "name": "Incidents",
+      "item": [
+        {
+          "name": "List incidents",
+          "request": { "method": "GET", "header": [{ "key": "Accept", "value": "application/json" }], "url": { "raw": "{{drmsBaseUrl}}/incidents?limit=50", "host": ["{{drmsBaseUrl}}"], "path": ["incidents"], "query": [{ "key": "limit", "value": "50" }] } }
+        },
+        {
+          "name": "Get incident",
+          "request": { "method": "GET", "header": [{ "key": "Accept", "value": "application/json" }], "url": "{{drmsBaseUrl}}/incidents/{{incidentId}}" }
+        },
+        {
+          "name": "Create incident",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Accept", "value": "application/json" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"API test incident\",\n  \"severity\": \"moderate\",\n  \"incident_type\": \"flood\",\n  \"description\": \"Created via Postman\"\n}"
+            },
+            "url": "{{drmsBaseUrl}}/incidents"
+          }
+        },
+        {
+          "name": "Verify incident",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Accept", "value": "application/json" }],
+            "url": "{{drmsBaseUrl}}/incidents/{{incidentId}}/verify"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Volunteers",
+      "item": [
+        {
+          "name": "List volunteers",
+          "request": { "method": "GET", "header": [{ "key": "Accept", "value": "application/json" }], "url": { "raw": "{{drmsBaseUrl}}/volunteers?limit=100", "host": ["{{drmsBaseUrl}}"], "path": ["volunteers"], "query": [{ "key": "limit", "value": "100" }] } }
+        },
+        {
+          "name": "Get volunteer",
+          "request": { "method": "GET", "header": [{ "key": "Accept", "value": "application/json" }], "url": "{{drmsBaseUrl}}/volunteers/{{volunteerId}}" }
+        }
+      ]
+    },
+    {
+      "name": "Evacuation centers",
+      "item": [
+        {
+          "name": "Summary",
+          "request": { "method": "GET", "header": [{ "key": "Accept", "value": "application/json" }], "url": "{{drmsBaseUrl}}/evacuation-centers/summary" }
+        },
+        {
+          "name": "List centers",
+          "request": { "method": "GET", "header": [{ "key": "Accept", "value": "application/json" }], "url": "{{drmsBaseUrl}}/evacuation-centers" }
+        },
+        {
+          "name": "Get center",
+          "request": { "method": "GET", "header": [{ "key": "Accept", "value": "application/json" }], "url": "{{drmsBaseUrl}}/evacuation-centers/{{evacCenterId}}" }
+        },
+        {
+          "name": "List families",
+          "request": { "method": "GET", "header": [{ "key": "Accept", "value": "application/json" }], "url": "{{drmsBaseUrl}}/evacuation-centers/{{evacCenterId}}/families" }
+        }
+      ]
+    },
+    {
+      "name": "Reports & Audit",
+      "item": [
+        {
+          "name": "Reports analytics",
+          "request": { "method": "GET", "header": [{ "key": "Accept", "value": "application/json" }], "url": "{{drmsBaseUrl}}/reports/analytics" }
+        },
+        {
+          "name": "Audit trail list",
+          "request": { "method": "GET", "header": [{ "key": "Accept", "value": "application/json" }], "url": "{{drmsBaseUrl}}/audit-trail" }
+        },
+        {
+          "name": "Audit summary",
+          "request": { "method": "GET", "header": [{ "key": "Accept", "value": "application/json" }], "url": "{{drmsBaseUrl}}/audit-trail/summary" }
+        }
+      ]
+    },
+    {
+      "name": "Matching",
+      "item": [
+        {
+          "name": "Queue",
+          "request": { "method": "GET", "header": [{ "key": "Accept", "value": "application/json" }], "url": "{{drmsBaseUrl}}/matching/queue" }
+        },
+        {
+          "name": "Recommend for incident",
+          "request": { "method": "GET", "header": [{ "key": "Accept", "value": "application/json" }], "url": "{{drmsBaseUrl}}/matching/incidents/{{incidentId}}" }
+        }
+      ]
+    },
+    {
+      "name": "Users",
+      "item": [
+        {
+          "name": "Roles catalog",
+          "request": { "method": "GET", "header": [{ "key": "Accept", "value": "application/json" }], "url": "{{drmsBaseUrl}}/roles" }
+        },
+        {
+          "name": "List users",
+          "request": { "method": "GET", "header": [{ "key": "Accept", "value": "application/json" }], "url": { "raw": "{{drmsBaseUrl}}/users?limit=50", "host": ["{{drmsBaseUrl}}"], "path": ["users"], "query": [{ "key": "limit", "value": "50" }] } }
+        },
+        {
+          "name": "Get user",
+          "request": { "method": "GET", "header": [{ "key": "Accept", "value": "application/json" }], "url": "{{drmsBaseUrl}}/users/{{userId}}" }
+        }
+      ]
+    },
+    {
+      "name": "DRMS → Relief proxy",
+      "description": "DRMS forwards to your relief API (configure integrations.reliefApiBaseUrl in .env)",
+      "item": [
+        {
+          "name": "Relief connection status",
+          "request": { "method": "GET", "header": [{ "key": "Accept", "value": "application/json" }], "url": "{{drmsBaseUrl}}/integrations/relief/status" }
+        },
+        {
+          "name": "Relief inventory (proxy)",
+          "request": { "method": "GET", "header": [{ "key": "Accept", "value": "application/json" }], "url": "{{drmsBaseUrl}}/integrations/relief/inventory" }
+        },
+        {
+          "name": "Relief distributions (proxy)",
+          "request": { "method": "GET", "header": [{ "key": "Accept", "value": "application/json" }], "url": "{{drmsBaseUrl}}/integrations/relief/distributions" }
+        }
+      ]
+    },
+    {
+      "name": "Relief system (your API)",
+      "description": "Endpoints YOUR relief/inventory system should expose. DRMS calls these via ExternalReliefApiClient.",
+      "item": [
+        {
+          "name": "Health",
+          "request": {
+            "auth": { "type": "bearer", "bearer": [{ "key": "token", "value": "{{reliefApiKey}}", "type": "string" }] },
+            "method": "GET",
+            "header": [{ "key": "Accept", "value": "application/json" }],
+            "url": "{{reliefBaseUrl}}/health"
+          }
+        },
+        {
+          "name": "Inventory list",
+          "request": {
+            "auth": { "type": "bearer", "bearer": [{ "key": "token", "value": "{{reliefApiKey}}", "type": "string" }] },
+            "method": "GET",
+            "header": [{ "key": "Accept", "value": "application/json" }],
+            "url": "{{reliefBaseUrl}}/inventory"
+          }
+        },
+        {
+          "name": "Distributions list",
+          "request": {
+            "auth": { "type": "bearer", "bearer": [{ "key": "token", "value": "{{reliefApiKey}}", "type": "string" }] },
+            "method": "GET",
+            "header": [{ "key": "Accept", "value": "application/json" }],
+            "url": "{{reliefBaseUrl}}/distributions"
+          }
+        },
+        {
+          "name": "Create distribution",
+          "request": {
+            "auth": { "type": "bearer", "bearer": [{ "key": "token", "value": "{{reliefApiKey}}", "type": "string" }] },
+            "method": "POST",
+            "header": [
+              { "key": "Accept", "value": "application/json" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"relief_item_id\": 1,\n  \"quantity\": 10,\n  \"beneficiary_name\": \"Maria Santos\",\n  \"beneficiary_contact\": \"09179876543\",\n  \"barangay_id\": 3,\n  \"incident_id\": 42,\n  \"notes\": \"Linked to verified flood incident\"\n}"
+            },
+            "url": "{{reliefBaseUrl}}/distributions"
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+# DRMS — route all requests to CodeIgniter public/ folder
+DirectoryIndex index.php index.html
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /
+
+    # Send everything to public/ (skip if already there)
+    RewriteCond %{REQUEST_URI} !^/public/
+    RewriteRule ^(.*)$ public/$1 [L]
+</IfModule>

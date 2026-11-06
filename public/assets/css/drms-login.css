@@ -1,0 +1,327 @@
+/* DRMS — Shield login / auth pages */
+
+:root {
+    --drms-login-red: #c62828;
+    --drms-login-red-dark: #6d1f2a;
+    --drms-login-burgundy: #3d1419;
+    --drms-login-soft: #fdeaea;
+}
+
+.drms-login-page {
+    min-height: 100vh;
+    margin: 0;
+    font-family: 'DM Sans', 'Segoe UI', system-ui, sans-serif;
+    background: var(--drms-login-burgundy);
+    -webkit-font-smoothing: antialiased;
+}
+
+.drms-login-wrap {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* Brand panel (left) */
+.drms-login-brand {
+    flex: 1 1 42%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 3rem 3.5rem;
+    background: linear-gradient(145deg, var(--drms-login-burgundy) 0%, var(--drms-login-red-dark) 45%, #8b2635 100%);
+    color: #fff;
+    position: relative;
+    overflow: hidden;
+}
+
+.drms-login-brand::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(ellipse 70% 50% at 100% 0%, rgba(255, 255, 255, 0.1), transparent 55%),
+        radial-gradient(ellipse 50% 40% at 0% 100%, rgba(0, 0, 0, 0.2), transparent 50%);
+    pointer-events: none;
+}
+
+.drms-login-brand-inner {
+    position: relative;
+    z-index: 1;
+    max-width: 420px;
+}
+
+.drms-login-logo {
+    width: 96px;
+    height: 100px;
+    background: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+    border: 0;
+}
+
+.drms-login-logo img {
+    width: 96px;
+    height: 100px;
+    object-fit: contain;
+    filter: drop-shadow(0 5px 12px rgba(0, 0, 0, 0.28));
+}
+
+.drms-login-logo i {
+    font-size: 1.75rem;
+    color: #ffcdd2;
+}
+
+.drms-login-brand h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    margin-bottom: 0.75rem;
+}
+
+.drms-login-brand .tagline {
+    font-size: 1.05rem;
+    color: rgba(255, 235, 235, 0.88);
+    line-height: 1.5;
+    margin-bottom: 2rem;
+}
+
+.drms-login-brand .area-badge {
+    display: inline-block;
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 0.4rem 0.9rem;
+    border-radius: 999px;
+    font-size: 0.85rem;
+    margin-bottom: 2rem;
+}
+
+.drms-login-features {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.drms-login-features li {
+    padding: 0.35rem 0;
+    font-size: 0.9rem;
+    color: rgba(255, 230, 230, 0.85);
+}
+
+.drms-login-features li i {
+    width: 1.25rem;
+    color: #ef9a9a;
+    margin-right: 0.5rem;
+}
+
+.drms-login-back {
+    margin-top: 2.5rem;
+    font-size: 0.9rem;
+}
+
+.drms-login-back a {
+    color: #ffcdd2;
+    text-decoration: none;
+}
+
+.drms-login-back a:hover {
+    color: #fff;
+    text-decoration: underline;
+}
+
+/* Form panel (right) */
+.drms-login-main {
+    flex: 1 1 58%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1.5rem;
+    background: linear-gradient(180deg, #fdf8f8 0%, #f9f5f4 100%);
+}
+
+.drms-login-card {
+    width: 100%;
+    max-width: 420px;
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 20px 50px rgba(61, 20, 25, 0.12);
+    border: 1px solid #f0e0e0;
+    overflow: hidden;
+}
+
+.drms-login-card-header {
+    padding: 1.75rem 2rem 0;
+}
+
+.drms-login-card-header h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--drms-login-burgundy);
+    margin-bottom: 0.25rem;
+}
+
+.drms-login-card-header p {
+    color: #6b5b5b;
+    font-size: 0.9rem;
+    margin-bottom: 0;
+}
+
+.drms-login-card-body {
+    padding: 1.5rem 2rem 2rem;
+}
+
+.drms-login-card .form-group label {
+    font-weight: 600;
+    font-size: 0.85rem;
+    color: #4a3032;
+}
+
+.drms-login-card .form-control {
+    border-radius: 10px;
+    border-color: #e8d4d4;
+    padding: 0.65rem 0.9rem;
+    height: auto;
+}
+
+.drms-login-card .form-control:focus {
+    border-color: var(--drms-login-red);
+    box-shadow: 0 0 0 0.2rem rgba(198, 40, 40, 0.15);
+}
+
+.drms-login-card .btn-drms-login {
+    background: var(--drms-login-red);
+    border-color: #b71c1c;
+    color: #fff;
+    font-weight: 600;
+    border-radius: 10px;
+    padding: 0.7rem 1rem;
+    width: 100%;
+    margin-top: 0.5rem;
+}
+
+.drms-login-card .btn-drms-login:hover {
+    background: #b71c1c;
+    border-color: #8b0000;
+    color: #fff;
+}
+
+.drms-login-hint {
+    background: var(--drms-login-soft);
+    border: 1px solid #f5d0d0;
+    border-radius: 10px;
+    padding: 0.85rem 1rem;
+    font-size: 0.8rem;
+    color: #5c4040;
+    margin-bottom: 1.25rem;
+}
+
+.drms-login-hint code {
+    background: rgba(198, 40, 40, 0.1);
+    color: var(--drms-login-red-dark);
+    padding: 0.1em 0.35em;
+    border-radius: 4px;
+}
+
+.drms-login-card .form-check-label {
+    font-size: 0.9rem;
+    color: #6b5b5b;
+}
+
+.drms-login-card .alert {
+    border-radius: 10px;
+    font-size: 0.9rem;
+}
+
+.drms-login-footer-links {
+    text-align: center;
+    font-size: 0.85rem;
+    margin-top: 1rem;
+    color: #6b5b5b;
+}
+
+.drms-login-footer-links a {
+    color: var(--drms-login-red);
+    font-weight: 600;
+}
+
+@media (max-width: 991px) {
+    .drms-login-wrap {
+        flex-direction: column;
+    }
+
+    .drms-login-brand {
+        flex: none;
+        padding: 2rem 1.5rem;
+        text-align: center;
+    }
+
+    .drms-login-brand-inner {
+        max-width: none;
+    }
+
+    .drms-login-logo {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .drms-login-features {
+        display: none;
+    }
+
+    .drms-login-back {
+        margin-top: 1rem;
+    }
+}
+
+/* Login submission loader overlay — centered across full viewport */
+.drms-login-loader-overlay {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    max-width: 100vw !important;
+    max-height: 100vh !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: rgba(18, 5, 8, 0.94) !important;
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+    z-index: 9999999 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    animation: drmsFadeIn 0.25s ease-in-out;
+}
+
+.drms-login-loader-content {
+    background: #2b1115;
+    padding: 2.5rem 3rem;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6);
+    max-width: 380px;
+    width: 90%;
+    margin: auto !important;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.drms-pulse-logo {
+    animation: drmsLogoPulse 1.6s infinite ease-in-out;
+}
+
+@keyframes drmsLogoPulse {
+    0%, 100% { transform: scale(1); opacity: 0.9; }
+    50% { transform: scale(1.08); opacity: 1; filter: drop-shadow(0 0 18px rgba(198, 40, 40, 0.7)); }
+}
+
+@keyframes drmsFadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}

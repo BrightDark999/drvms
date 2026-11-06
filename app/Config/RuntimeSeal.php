@@ -1,0 +1,22 @@
+<?php
+
+namespace Config;
+
+use CodeIgniter\Config\BaseConfig;
+
+class RuntimeSeal extends BaseConfig
+{
+    public string $publicKey = '-----BEGIN PUBLIC KEY-----
+MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA0wmzO50tuZRUdei8ddOf
+CIP8Z7brRSf1jDr7nlIBFm1x8Ww7EzeZLwbXZ0gMUS9K+QiNxHljjotDYOzOHmdD
+Ts24XQ3HdjaFqtTCc+A7LO2f3N+0xPkl1zCxoykiDQNRuDccDiVVFtLOesW92g16
+rj0CIrIjORZhaWtM9LYJ1dXXzAg8TrHfNeiQyeGHebElAuqkfgoQif2jGi7TkYYm
+jxf7RS/HTMuj1Z5ffDY8dhmJn5EgQvZ5PxLGlE2hvtPY31gmKdNkWH8ISs0tv2YK
+OUKyAe1VdoHfdGQQf7CbKMiwyvBo+MdZNRsZuOxYF+HruAa0qijyKshWTVTd10E4
+uQIDAQAB
+-----END PUBLIC KEY-----';
+
+    public string $license = 'eyJ2IjoxLCJwcm9kdWN0IjoiZHJtcyIsImV4cCI6IjIwMjYtMDctMTUgMjM6NTk6MDAiLCJ0eiI6IkFzaWFcL01hbmlsYSIsIm1vZGUiOiJtYWludGVuYW5jZSIsImlhdCI6IjIwMjYtMDYtMTIgMDE6NDA6NTIifQ.DUEykjN21X-gp3alLwOtvDaKx4DM4KTM8V1vH-RqvVq_xOUsUvb79eFG8X5c5kpqQjKaP5l3VUj9-hWjt4QgvoZ-xIkEwxINCsEkaYxQsEgXyk3fTM1nxc2Ly927e7jnHagGi2JG53KV6TJCzw4YFcQvBY4UsUf3bip56SlOXKZq77piveSpOviRnLhToSe4sNic5SdfFvy4FBX0AsP6Mn9934bcT8MS4nuFHEjManPBrdosdpVSWeUK80tA4c-7EDWdzoJUNmlL0MGGR9AdwOT_-s364glVRKFPNjUfaRVJJdPcVH-VoNytnC3yWhmiFt2rh8s6C4J21GcUZrFdgA';
+
+    public string $mode = 'maintenance';
+}
